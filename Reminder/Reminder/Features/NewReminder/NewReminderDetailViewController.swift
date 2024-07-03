@@ -154,7 +154,11 @@ extension NewRemindeNewReminderDetailViewControllerrViewController: UITableViewD
             present(vc, animated: true)
         case 2:
             let vc = PriorityViewController()
-            vc.modalTransitionStyle = .coverVertical
+            vc.priorityChanged = { priority in
+                if let cell = tableView.cellForRow(at: indexPath) as? TitleTableViewCell {
+                    cell.resultLabel.text = priority
+                }
+            }
             present(vc, animated: true)
         case 3:
             print("호엥?")
