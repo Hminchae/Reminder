@@ -122,4 +122,38 @@ extension ListDetailViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
     }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let detail = UIContextualAction(style: .normal, title: "세부사항") { (action, view, completionHandler) in
+            // TODO: 디테일 vc 구현
+            completionHandler(true)
+        }
+        
+        let flag = UIContextualAction(style: .normal, title: "깃발") { (action, view, completionHandler) in
+            // TODO: 깃발 기능 구현
+            completionHandler(true)
+        }
+        
+        let delete = UIContextualAction(style: .destructive, title: "삭제") { [weak self] (action, view, completionHandler) in
+            
+            guard let itemToDelete = self?.realm.object(ofType: TodoTable.self, forPrimaryKey: self?.list[indexPath.row].id) else {
+                completionHandler(false)
+                return
+            }
+            
+            try? self?.realm.write {
+                self?.realm.delete(itemToDelete)
+            }
+            
+            tableView.reloadData()
+            completionHandler(true)
+        }
+        
+        detail.backgroundColor = .systemGray
+        flag.backgroundColor = .systemOrange
+
+        let config = UISwipeActionsConfiguration(actions: [delete, flag, detail])
+        
+        return config
+    }
 }
