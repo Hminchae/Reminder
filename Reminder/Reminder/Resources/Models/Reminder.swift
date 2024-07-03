@@ -16,12 +16,7 @@ struct Reminder {
 
 struct ReminderDetail {
     var date: Date?
-    var time: String?
     var tag: String?
-    var location: String?
-    var whenMesseging: String?
-    var flag: String?
     var priority: String?
     var image: String?
-    var url: String?
 }

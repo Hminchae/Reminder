@@ -9,6 +9,7 @@ import UIKit
 
 class NewRemindeNewReminderDetailViewControllerrViewController: BaseViewController {
     
+    private var selectedDate = Date()
     private let topItemView = UIView()
     
     private let modalTitleLabel = {
@@ -110,12 +111,12 @@ extension NewRemindeNewReminderDetailViewControllerrViewController: UITableViewD
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let cell = tableView.dequeueReusableCell(withIdentifier: TitleTableViewCell.identifier, for: indexPath)
-            guard let cell = cell as? TitleTableViewCell else { return UITableViewCell() }
-            cell.titleLabel.text = View.NewREList.allCases[indexPath.section].rawValue
-            cell.accessoryType = .disclosureIndicator
-            
-            return cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: TitleTableViewCell.identifier, for: indexPath)
+        guard let cell = cell as? TitleTableViewCell else { return UITableViewCell() }
+        cell.titleLabel.text = View.NewREList.allCases[indexPath.section].rawValue
+        cell.accessoryType = .disclosureIndicator
+        
+        return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -127,6 +128,16 @@ extension NewRemindeNewReminderDetailViewControllerrViewController: UITableViewD
         switch indexPath.section {
         case 0:
             let vc = DueDateViewController()
+            vc.dateSelected = { [weak self] date in
+                self?.selectedDate = date
+                
+                let formatter = DateFormatter()
+                formatter.dateFormat = "yyyy.MM.dd"
+                
+                if let cell = tableView.cellForRow(at: indexPath) as? TitleTableViewCell {
+                    cell.resultLabel.text = formatter.string(from: date)
+                }
+            }
             vc.modalTransitionStyle = .coverVertical
             present(vc, animated: true)
         case 1:
