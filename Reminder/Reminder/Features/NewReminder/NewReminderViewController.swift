@@ -155,7 +155,7 @@ extension NewReminderViewController: UITableViewDelegate, UITableViewDataSource 
         case 0:
             return 1
         case 1:
-            return View.NewREList.allCases.count
+            return 1
         default:
             return 0
         }
@@ -172,7 +172,7 @@ extension NewReminderViewController: UITableViewDelegate, UITableViewDataSource 
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: TitleTableViewCell.identifier, for: indexPath)
             guard let cell = cell as? TitleTableViewCell else { return UITableViewCell() }
-            cell.titleLabel.text = View.NewREList.allCases[indexPath.row].rawValue
+            cell.titleLabel.text = "세부사항"
             cell.accessoryType = .disclosureIndicator
             
             return cell
@@ -189,6 +189,20 @@ extension NewReminderViewController: UITableViewDelegate, UITableViewDataSource 
             return 50
         default:
             return 0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch indexPath.section {
+        case 0:
+            print("ㅜㅜㅜ")
+        case 1:
+            print("ㅜㅜㅜ")
+            let vc = NewRemindeNewReminderDetailViewControllerrViewController()
+            vc.modalTransitionStyle = .coverVertical
+            present(vc, animated: true)
+        default:
+            print("ㅜㅜㅜ")
         }
     }
 }

@@ -33,6 +33,10 @@
 		B1CE5FB72C34CBB4000F4AA1 /* ListDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CE5FB62C34CBB4000F4AA1 /* ListDetailTableViewCell.swift */; };
 		B1CE5FBC2C3559E0000F4AA1 /* Reminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CE5FBB2C3559E0000F4AA1 /* Reminder.swift */; };
 		B1CE5FBF2C35721E000F4AA1 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CE5FBE2C35721E000F4AA1 /* RadioButton.swift */; };
+		B1CE5FC42C35AC5E000F4AA1 /* NewReminderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CE5FC32C35AC5E000F4AA1 /* NewReminderDetailViewController.swift */; };
+		B1CE5FC72C35B05E000F4AA1 /* DueDateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CE5FC62C35B05E000F4AA1 /* DueDateViewController.swift */; };
+		B1CE5FC92C35B07F000F4AA1 /* TagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CE5FC82C35B07F000F4AA1 /* TagViewController.swift */; };
+		B1CE5FCB2C35B08F000F4AA1 /* PriorityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CE5FCA2C35B08F000F4AA1 /* PriorityViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +66,10 @@
 		B1CE5FB62C34CBB4000F4AA1 /* ListDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDetailTableViewCell.swift; sourceTree = "<group>"; };
 		B1CE5FBB2C3559E0000F4AA1 /* Reminder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reminder.swift; sourceTree = "<group>"; };
 		B1CE5FBE2C35721E000F4AA1 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
+		B1CE5FC32C35AC5E000F4AA1 /* NewReminderDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewReminderDetailViewController.swift; sourceTree = "<group>"; };
+		B1CE5FC62C35B05E000F4AA1 /* DueDateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DueDateViewController.swift; sourceTree = "<group>"; };
+		B1CE5FC82C35B07F000F4AA1 /* TagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewController.swift; sourceTree = "<group>"; };
+		B1CE5FCA2C35B08F000F4AA1 /* PriorityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,7 +195,9 @@
 		B1CE5F922C3444A6000F4AA1 /* NewReminder */ = {
 			isa = PBXGroup;
 			children = (
+				B1CE5FC52C35B03E000F4AA1 /* DetailVC */,
 				B1CE5F942C3444DE000F4AA1 /* NewReminderViewController.swift */,
+				B1CE5FC32C35AC5E000F4AA1 /* NewReminderDetailViewController.swift */,
 			);
 			path = NewReminder;
 			sourceTree = "<group>";
@@ -251,6 +261,16 @@
 				B1CE5FB62C34CBB4000F4AA1 /* ListDetailTableViewCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		B1CE5FC52C35B03E000F4AA1 /* DetailVC */ = {
+			isa = PBXGroup;
+			children = (
+				B1CE5FC62C35B05E000F4AA1 /* DueDateViewController.swift */,
+				B1CE5FC82C35B07F000F4AA1 /* TagViewController.swift */,
+				B1CE5FCA2C35B08F000F4AA1 /* PriorityViewController.swift */,
+			);
+			path = DetailVC;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -343,15 +363,19 @@
 				B1CE5F8E2C3443B1000F4AA1 /* REFont.swift in Sources */,
 				B1CE5FA12C34513E000F4AA1 /* ReuseIdentifierProtocol.swift in Sources */,
 				B1CE5FBF2C35721E000F4AA1 /* RadioButton.swift in Sources */,
+				B1CE5FC92C35B07F000F4AA1 /* TagViewController.swift in Sources */,
 				B1CE5FB52C34C97D000F4AA1 /* RealmSwift.swift in Sources */,
 				B1CE5FB02C34BF50000F4AA1 /* TitleTableViewCell.swift in Sources */,
 				B1CE5F9F2C345118000F4AA1 /* MainHeaderCollectionViewCell.swift in Sources */,
 				B1CE5FA42C3457FC000F4AA1 /* MainViewController.swift in Sources */,
+				B1CE5FC42C35AC5E000F4AA1 /* NewReminderDetailViewController.swift in Sources */,
+				B1CE5FC72C35B05E000F4AA1 /* DueDateViewController.swift in Sources */,
 				B1CE5FBC2C3559E0000F4AA1 /* Reminder.swift in Sources */,
 				B1CE5F912C344461000F4AA1 /* ListDetailViewController.swift in Sources */,
 				B1CE5F952C3444DE000F4AA1 /* NewReminderViewController.swift in Sources */,
 				B1CE5F8A2C344359000F4AA1 /* BaseTableViewCell.swift in Sources */,
 				B1CE5F862C34431C000F4AA1 /* BaseView.swift in Sources */,
+				B1CE5FCB2C35B08F000F4AA1 /* PriorityViewController.swift in Sources */,
 				B1CE5FB32C34C0E9000F4AA1 /* Enums.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

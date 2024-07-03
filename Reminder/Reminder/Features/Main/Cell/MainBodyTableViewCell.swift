@@ -43,12 +43,12 @@ final class MainBodyTableViewCell: BaseTableViewCell {
 
         categoryIconContainer.snp.makeConstraints { make in
             make.centerY.equalTo(toDoTitleLabel.snp.centerY)
-            make.leading.equalTo(contentView.snp.leading).offset(5)
+            make.leading.equalTo(contentView.snp.leading).offset(10)
             make.size.equalTo(30)
         }
         
         toDoTitleLabel.snp.makeConstraints { make in
-            make.verticalEdges.equalTo(contentView.snp.verticalEdges).inset(5)
+            make.verticalEdges.equalTo(contentView.snp.verticalEdges).inset(10)
             make.leading.equalTo(categoryIconContainer.snp.trailing).offset(8)
         }
         
