@@ -10,6 +10,7 @@ import UIKit
 class NewRemindeNewReminderDetailViewControllerrViewController: BaseViewController {
     
     private var selectedDate = Date()
+    private var writedTag = String()
     private let topItemView = UIView()
     
     private let modalTitleLabel = {
@@ -142,6 +143,13 @@ extension NewRemindeNewReminderDetailViewControllerrViewController: UITableViewD
             present(vc, animated: true)
         case 1:
             let vc = TagViewController()
+            vc.tagWrited = { [weak self] tag in
+                self?.writedTag = tag
+                
+                if let cell = tableView.cellForRow(at: indexPath) as? TitleTableViewCell {
+                    cell.resultLabel.text = tag
+                }
+            }
             vc.modalTransitionStyle = .coverVertical
             present(vc, animated: true)
         case 2:
