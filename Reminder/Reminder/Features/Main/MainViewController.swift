@@ -7,8 +7,11 @@
 
 import UIKit
 
+import RealmSwift
+
 final class MainViewController: BaseViewController {
     
+    private let realm = try! Realm()
     // MARK: 뷰
     private lazy var tableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
@@ -50,11 +53,6 @@ final class MainViewController: BaseViewController {
     }()
     
     // MARK: override 메서드
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configureNavigationItem()
-    }
-    
     override func configureHierarchy() {
         view.addSubview(tableView)
         view.addSubview(bottomItemView)
@@ -77,6 +75,9 @@ final class MainViewController: BaseViewController {
     override func configureView() {
         setupTableViewHeader()
         setupBottomItemView()
+        configureNavigationItem()
+        
+        print(realm.configuration.fileURL)
     }
     
     // MARK: 일반 메서드

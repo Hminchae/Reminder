@@ -126,7 +126,12 @@ class NewReminderViewController: BaseViewController {
             return
         }
         
-        let data = TodoTable(momoTitle: reminder.title, memoContent: reminder.memo)
+        let data = TodoTable(momoTitle: reminder.title, 
+                             memoContent: reminder.memo,
+                             category: "미리 알림",
+                             resisterDate: Date(), 
+                             dueDate: Date().addingTimeInterval(10000)) // 임의의 시간
+       
         try! realm.write {
             realm.add(data)
             print("Realm Create Succeed")
