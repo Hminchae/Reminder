@@ -73,4 +73,11 @@ enum Value {
         case reminder = "미리 알림"
         case toDo = "할일"
     }
+    
+    enum listSort: String, CaseIterable {
+        case dueDate = "마감일"
+        case registerDate = "생성일"
+        case priority = "우선 순위"
+        case title = "제목"
+    }
 }

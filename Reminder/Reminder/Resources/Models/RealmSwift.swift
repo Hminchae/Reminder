@@ -14,21 +14,21 @@ class TodoTable: Object {
     @Persisted(indexed: true) var momoTitle: String
     @Persisted var momoContent: String?
     @Persisted var category: String
-    @Persisted var resisterDate: Date
+    @Persisted var registerDate: Date
     @Persisted var dueDate: Date
     @Persisted var isflag: Bool
     
     convenience init(momoTitle: String, 
                      memoContent: String?,
                      category: String,
-                     resisterDate: Date,
+                     registerDate: Date,
                      dueDate: Date
     ) {
         self.init()
         self.momoTitle = momoTitle
         self.momoContent = momoContent
         self.category = category
-        self.resisterDate = resisterDate
+        self.registerDate = registerDate
         self.dueDate = dueDate
         self.isflag = false
     }

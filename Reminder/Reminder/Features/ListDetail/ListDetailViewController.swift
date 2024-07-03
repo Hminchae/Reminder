@@ -80,13 +80,39 @@ class ListDetailViewController: BaseViewController {
             target: self,
             action: #selector(shareButtonClicked))
         
-        let configure = UIBarButtonItem(
-            image: UIImage(systemName: "ellipsis.circle"),
-            style: .plain,
-            target: self,
-            action: #selector(configureButtonClicked))
+        let configure = UIButton(type: .system)
+        configure.setImage(UIImage(systemName: "ellipsis.circle"), for: .normal)
+        configure.showsMenuAsPrimaryAction = true
+        configure.menu = configureMenu()
         
-        navigationItem.rightBarButtonItems = [configure, share]
+        let configureItem = UIBarButtonItem(customView: configure)
+        
+        navigationItem.rightBarButtonItems = [configureItem, share]
+    }
+    
+    private func configureMenu() -> UIMenu {
+        
+        let dueDate = UIAction(title: "마감일", image: UIImage(systemName: "pencil.circle")) { [weak self] action in
+            self?.list = self?.realm.objects(TodoTable.self).sorted(byKeyPath: "dueDate", ascending: true)
+            self?.tableView.reloadData()
+        }
+        
+        let registerDate = UIAction(title: "생성일", image: UIImage(systemName: "pencil.circle")) { [weak self] action in
+            print("???")
+            self?.list = self?.realm.objects(TodoTable.self).sorted(byKeyPath: "registerDate", ascending: true)
+            self?.tableView.reloadData()
+        }
+        
+        let priority = UIAction(title: "제목", image: UIImage(systemName: "pencil.circle")) { [weak self] action in
+            self?.list = self?.realm.objects(TodoTable.self).sorted(byKeyPath: "momoTitle", ascending: true)
+            self?.tableView.reloadData()
+        }
+        
+        let titleSort = UIAction(title: "취소", image: UIImage(systemName: "pencil.circle"), attributes: [.disabled]) { action in
+            // 취소
+        }
+        
+        return UIMenu(title: "", children: [dueDate, registerDate, priority, titleSort])
     }
     
     @objc private func newReminderButtonClicked() {
@@ -95,10 +121,6 @@ class ListDetailViewController: BaseViewController {
     
     @objc private func shareButtonClicked() {
         print("공유버튼 기능 구현")
-    }
-    
-    @objc private func configureButtonClicked() {
-        print("구성버튼 기능 구현")
     }
 }
 
@@ -151,7 +173,7 @@ extension ListDetailViewController: UITableViewDelegate, UITableViewDataSource {
         
         detail.backgroundColor = .systemGray
         flag.backgroundColor = .systemOrange
-
+        
         let config = UISwipeActionsConfiguration(actions: [delete, flag, detail])
         
         return config
