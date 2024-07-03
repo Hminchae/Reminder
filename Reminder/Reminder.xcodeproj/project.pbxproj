@@ -178,8 +178,8 @@
 		B1CE5F8F2C34440C000F4AA1 /* ListDetail */ = {
 			isa = PBXGroup;
 			children = (
+				B1CE5FC22C358D75000F4AA1 /* Cell */,
 				B1CE5F902C344461000F4AA1 /* ListDetailViewController.swift */,
-				B1CE5FB62C34CBB4000F4AA1 /* ListDetailTableViewCell.swift */,
 			);
 			path = ListDetail;
 			sourceTree = "<group>";
@@ -243,6 +243,14 @@
 				B1CE5FBE2C35721E000F4AA1 /* RadioButton.swift */,
 			);
 			path = CustomView;
+			sourceTree = "<group>";
+		};
+		B1CE5FC22C358D75000F4AA1 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				B1CE5FB62C34CBB4000F4AA1 /* ListDetailTableViewCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 
 class ListDetailViewController: BaseViewController {
-
+    
     var navigationTitle: String?
     private var list: Results<TodoTable>!
     private let realm = try! Realm()
@@ -42,17 +42,6 @@ class ListDetailViewController: BaseViewController {
         return button
     }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        navigationController?.navigationBar.prefersLargeTitles = true
-        
-        if let navigationTitle {
-            title = navigationTitle
-        }
-        
-        list = realm.objects(TodoTable.self)
-    }
-    
     override func configureHierarchy() {
         view.addSubview(tableView)
         view.addSubview(newReminderButton)
@@ -73,8 +62,43 @@ class ListDetailViewController: BaseViewController {
         }
     }
     
+    override func configureView() {
+        configureNavigationBar()
+        
+        list = realm.objects(TodoTable.self)
+    }
+    
+    private func configureNavigationBar() {
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
+        if let navigationTitle {
+            title = navigationTitle
+        }
+        let share = UIBarButtonItem(
+            image: UIImage(systemName: "square.and.arrow.up"),
+            style: .plain,
+            target: self,
+            action: #selector(shareButtonClicked))
+        
+        let configure = UIBarButtonItem(
+            image: UIImage(systemName: "ellipsis.circle"),
+            style: .plain,
+            target: self,
+            action: #selector(configureButtonClicked))
+        
+        navigationItem.rightBarButtonItems = [configure, share]
+    }
+    
     @objc private func newReminderButtonClicked() {
-        print("허ㅓ어엉")
+        print("새로운 미리 알림 기능 구현")
+    }
+    
+    @objc private func shareButtonClicked() {
+        print("공유버튼 기능 구현")
+    }
+    
+    @objc private func configureButtonClicked() {
+        print("구성버튼 기능 구현")
     }
 }
 
