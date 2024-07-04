@@ -11,7 +11,7 @@ struct Reminder {
     var title: String
     var memo: String?
     var detail: [ReminderDetail]?
-    var category: Value.Category
+    var category: View.Category
 }
 
 struct ReminderDetail {
