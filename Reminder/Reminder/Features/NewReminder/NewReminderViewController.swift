@@ -28,36 +28,6 @@ class NewReminderViewController: BaseViewController {
         return tableView
     }()
     
-    private let topItemView = UIView()
-    
-    private lazy var cancelButton = {
-        let button = UIButton()
-        button.setTitle("취소", for: .normal)
-        button.addTarget(self, action: #selector(cancelButtonClicked), for: .touchUpInside)
-        button.setTitleColor(.systemBlue, for: .normal)
-        
-        return button
-    }()
-    
-    private let modalTitleLabel = {
-        let label = UILabel()
-        label.font = REFont.m17
-        label.textColor = .label
-        label.textAlignment = .center
-        label.text = "새로운 미리알림"
-        
-        return label
-    }()
-    
-    private lazy var addButton = {
-        let button = UIButton()
-        button.setTitle("추가", for: .normal)
-        button.addTarget(self, action: #selector(addButtonClicked), for: .touchUpInside)
-        button.setTitleColor(.label, for: .normal)
-        
-        return button
-    }()
-    
     private var tempReminder: Reminder?
     
     override func viewDidLoad() {
@@ -66,53 +36,37 @@ class NewReminderViewController: BaseViewController {
     }
     
     override func configureHierarchy() {
-        view.addSubview(topItemView)
         view.addSubview(tableView)
     }
     
     override func configureLayout() {
-        topItemView.snp.makeConstraints { make in
-            make.top.equalTo(view.snp.top)
-            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
-            make.height.equalTo(50)
-        }
-        
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(topItemView.snp.bottom)
+            make.top.equalTo(view.safeAreaLayoutGuide)
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
             make.bottom.equalTo(view.snp.bottom)
         }
     }
     
     override func configureView() {
-        setupTopItemView()
+        configureNavigationItem()
     }
     
-    private func setupTopItemView() {
-        topItemView.backgroundColor = .modalBg
+    func configureNavigationItem() {
+        let cancel = UIBarButtonItem(
+            title: "취소",
+            style: .plain,
+            target: self,
+            action: #selector(cancelButtonClicked))
         
-        topItemView.addSubview(cancelButton)
-        topItemView.addSubview(modalTitleLabel)
-        topItemView.addSubview(addButton)
+        let add = UIBarButtonItem(
+            title: "추가",
+            style: .plain,
+            target: self,
+            action: #selector(addButtonClicked))
         
-        cancelButton.snp.makeConstraints { make in
-            make.top.equalTo(topItemView.snp.top).offset(10)
-            make.leading.equalTo(topItemView.snp.leading).offset(10)
-            make.width.equalTo(50)
-            make.height.equalTo(20)
-        }
-        
-        modalTitleLabel.snp.makeConstraints { make in
-            make.centerX.equalTo(topItemView.snp.centerX)
-            make.centerY.equalTo(cancelButton.snp.centerY)
-        }
-        
-        addButton.snp.makeConstraints { make in
-            make.top.equalTo(topItemView.snp.top).offset(10)
-            make.trailing.equalTo(topItemView.snp.trailing).inset(10)
-            make.width.equalTo(50)
-            make.height.equalTo(20)
-        }
+        navigationItem.title = "새로운 미리 알림"
+        navigationItem.leftBarButtonItem = cancel
+        navigationItem.rightBarButtonItem = add
     }
     
     @objc private func addButtonClicked() {
