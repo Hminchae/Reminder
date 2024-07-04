@@ -13,11 +13,31 @@ final class TodoTableRepository {
     
     private let realm = try! Realm()
     
-    // 데이터 패치
-    func fetchAll(type: Sort.TypeOf, asc: Bool) -> [TodoTable] {
-        let value = realm.objects(TodoTable.self).sorted(byKeyPath: type.name,
-                                                         ascending: asc)
-        return Array(value)
+    // 데이터 패치 - 카테고리 지정 값 없으면 전체
+    func fetchAll(_ category: View.MainCategory, 
+                  sortType: Sort.TypeOf
+    ) -> [TodoTable] {
+        let now = Date()
+        let twentyFourHoursLater = Calendar.current.date(byAdding: .hour, value: 24, to: now)!
+        
+        let results: Results<TodoTable>
+        
+        switch category {
+        case .today:
+            results = realm.objects(TodoTable.self).filter("dueDate >= %@ AND dueDate <= %@", now, twentyFourHoursLater)
+        case .expacted:
+            results = realm.objects(TodoTable.self).filter("dueDate > %@", now)
+        case .all:
+            results = realm.objects(TodoTable.self)
+        case .flag:
+            results = realm.objects(TodoTable.self).filter("isflag == true")
+        case .completed:
+            results = realm.objects(TodoTable.self).filter("isCompleted == true")
+        }
+        
+        let sortedResults = results.sorted(byKeyPath: sortType.dbName,
+                                           ascending: sortType.isAsc)
+        return Array(sortedResults)
     }
     
     // 데이터 생성

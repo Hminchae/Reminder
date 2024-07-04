@@ -7,14 +7,14 @@
 
 import UIKit
 
-import RealmSwift
-
 protocol NewReminderContentsDelegate {
     func passTitle(_ text: String)
     func passMemo(_ text: String)
 }
 
 class NewReminderViewController: BaseViewController {
+    
+    private let repository = TodoTableRepository()
     
     private lazy var tableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
@@ -70,9 +70,7 @@ class NewReminderViewController: BaseViewController {
     }
     
     @objc private func addButtonClicked() {
-        let realm = try! Realm() // 데이터가 있는 위치를 찾아가는 코드
-        
-        guard let reminder = tempReminder, !reminder.title.isEmpty else {
+        guard let reminder = tempReminder, !reminder.title.isEmpty else { // 알럿 메니저 만들기
             let alert = UIAlertController(title: "제목이 비어 있습니다", message: "제목을 입력해주세요.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "확인", style: .default))
             present(alert, animated: true)
@@ -84,12 +82,10 @@ class NewReminderViewController: BaseViewController {
                              memoContent: reminder.memo,
                              category: "미리 알림",
                              registerDate: Date(),
-                             dueDate: Date().addingTimeInterval(10000)) // 임의의 시간
+                             dueDate: Date().addingTimeInterval(10000),
+                             priority: 1)
         
-        try! realm.write {
-            realm.add(data)
-            print("Realm Create Succeed")
-        }
+        repository.createItem(data)
         
         dismiss(animated: true)
     }
@@ -120,6 +116,7 @@ extension NewReminderViewController: UITableViewDelegate, UITableViewDataSource 
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: NewReminderContentsTableViewCell.identifier, for: indexPath)
             guard let cell = cell as? NewReminderContentsTableViewCell else { return UITableViewCell() }
+            
             cell.delegate = self
             
             return cell

@@ -187,6 +187,22 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("bnbbb")
         let vc = ListDetailViewController()
+        
+        switch indexPath.row {
+        case 0:
+            vc.category = .today
+        case 1:
+            vc.category = .expacted
+        case 2:
+            vc.category = .all
+        case 3:
+            vc.category = .flag
+        case 4:
+            vc.category = .completed
+        default:
+            fatalError()
+        }
+        
         vc.navigationTitle = View.MainCategory.allCases[indexPath.row].rawValue
         navigationController?.pushViewController(vc, animated: true)
     }

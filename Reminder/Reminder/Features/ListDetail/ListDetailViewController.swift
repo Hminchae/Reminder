@@ -7,13 +7,16 @@
 
 import UIKit
 
-import RealmSwift
 
-class ListDetailViewController: BaseViewController {
+final class ListDetailViewController: BaseViewController {
+    
+    private var repository = TodoTableRepository()
     
     var navigationTitle: String?
-    private var list: Results<TodoTable>!
-    private let realm = try! Realm()
+    var category: View.MainCategory?
+    
+    lazy var list: [TodoTable] = []
+    
     
     lazy private var tableView = {
         let tableView = UITableView()
@@ -42,6 +45,12 @@ class ListDetailViewController: BaseViewController {
         return button
     }()
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        configureList()
+    }
+    
     override func configureHierarchy() {
         view.addSubview(tableView)
         view.addSubview(newReminderButton)
@@ -64,8 +73,6 @@ class ListDetailViewController: BaseViewController {
     
     override func configureView() {
         configureNavigationBar()
-        
-        list = realm.objects(TodoTable.self)
     }
     
     private func configureNavigationBar() {
@@ -74,6 +81,7 @@ class ListDetailViewController: BaseViewController {
         if let navigationTitle {
             title = navigationTitle
         }
+        
         let share = UIBarButtonItem(
             image: UIImage(systemName: "square.and.arrow.up"),
             style: .plain,
@@ -90,29 +98,37 @@ class ListDetailViewController: BaseViewController {
         navigationItem.rightBarButtonItems = [configureItem, share]
     }
     
+    private func configureList() {
+        guard let category else { return }
+        
+        list = repository.fetchAll(category, sortType: .registerDate(asc: true))
+    }
+    
+    // 화면에 들어와서 리스트를 업데이트 해줄까..
     private func configureMenu() -> UIMenu {
+        guard let category else { return UIMenu() }
         
-        let dueDate = UIAction(title: "마감일", image: UIImage(systemName: "pencil.circle")) { [weak self] action in
-            self?.list = self?.realm.objects(TodoTable.self).sorted(byKeyPath: "dueDate", ascending: true)
-            self?.tableView.reloadData()
+        let sortActions = Sort.TypeOf.allCases.map { sortType in
+            return UIAction(title: sortType.name) { [weak self] _ in
+                print("너")
+                switch sortType {
+                case .dueDate:
+                    print("어 ??????")
+                    self?.list = self?.repository.fetchAll(category, sortType: .dueDate(asc: sortType.isAsc)) ?? []
+                    print(self?.list)
+                case .registerDate:
+                    self?.list = self?.repository.fetchAll(category, sortType: .dueDate(asc: sortType.isAsc)) ?? []
+                case .priority:
+                    self?.list = self?.repository.fetchAll(category, sortType: .dueDate(asc: sortType.isAsc)) ?? []
+                case .title:
+                    self?.list = self?.repository.fetchAll(category, sortType: .dueDate(asc: sortType.isAsc)) ?? []
+                }
+                print("적용되냐")
+                self?.tableView.reloadData()
+            }
         }
         
-        let registerDate = UIAction(title: "생성일", image: UIImage(systemName: "pencil.circle")) { [weak self] action in
-            print("???")
-            self?.list = self?.realm.objects(TodoTable.self).sorted(byKeyPath: "registerDate", ascending: true)
-            self?.tableView.reloadData()
-        }
-        
-        let priority = UIAction(title: "제목", image: UIImage(systemName: "pencil.circle")) { [weak self] action in
-            self?.list = self?.realm.objects(TodoTable.self).sorted(byKeyPath: "momoTitle", ascending: true)
-            self?.tableView.reloadData()
-        }
-        
-        let titleSort = UIAction(title: "취소", image: UIImage(systemName: "pencil.circle"), attributes: [.disabled]) { action in
-            // 취소
-        }
-        
-        return UIMenu(title: "", children: [dueDate, registerDate, priority, titleSort])
+        return UIMenu(title: "", children: sortActions)
     }
     
     @objc private func newReminderButtonClicked() {
@@ -158,16 +174,12 @@ extension ListDetailViewController: UITableViewDelegate, UITableViewDataSource {
         
         let delete = UIContextualAction(style: .destructive, title: "삭제") { [weak self] (action, view, completionHandler) in
             
-            guard let itemToDelete = self?.realm.object(ofType: TodoTable.self, forPrimaryKey: self?.list[indexPath.row].id) else {
-                completionHandler(false)
-                return
-            }
+            guard let data = self?.list[indexPath.row] else { return }
             
-            try? self?.realm.write {
-                self?.realm.delete(itemToDelete)
-            }
+            self?.repository.deleteItem(data)
             
             tableView.reloadData()
+            
             completionHandler(true)
         }
         

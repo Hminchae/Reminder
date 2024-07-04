@@ -73,7 +73,8 @@ enum View {
 }
 
 enum Sort {
-    enum TypeOf {
+    enum TypeOf: CaseIterable {
+    
         case dueDate(asc: Bool)
         case registerDate(asc: Bool)
         case priority(asc: Bool)
@@ -92,41 +93,50 @@ enum Sort {
             }
         }
         
+        var dbName: String {
+            switch self {
+            case .dueDate:
+                return "dueDate"
+            case .registerDate:
+                return "registerDate"
+            case .priority:
+                return "priority"
+            case .title:
+                return "momoTitle"
+            }
+        }
+        
         var way: String {
             switch self {
                 
             case .dueDate(let asc):
-                switch asc {
-                case true:
-                    return "늦은 항목 순으로"
-                case false:
-                    return "이른 항목 순으로"
-                }
+                return asc ? "늦은 항목 순으로" : "이른 항목 순으로"
                 
             case .registerDate(let asc):
-                switch asc {
-                case true:
-                    return "최신 항목 순으로"
-                case false:
-                    return "오래된 항목 순으로"
-                }
+                return asc ? "최신 항목 순으로" : "오래된 항목 순으로"
                 
             case .priority(let asc):
-                switch asc {
-                case true:
-                    return "낮은 우선 순위로"
-                case false:
-                    return "높은 우선 순위로"
-                }
+                return asc ? "낮은 우선 순위로" : "높은 우선 순위로"
                 
             case .title(let asc):
-                switch asc {
-                case true:
-                    return "늦은 항목 순으로"
-                case false:
-                    return "이른 항목 순으로"
-                }
+                return asc ? "오름차순" : "내림차순"
             }
+        }
+        
+        var isAsc: Bool {
+            switch self {
+            case .dueDate(let asc), .registerDate(let asc), .priority(let asc), .title(let asc):
+                return asc
+            }
+        }
+        
+        static var allCases: [TypeOf] {
+            return [
+                .dueDate(asc: true),
+                .registerDate(asc: true),
+                .priority(asc: true),
+                .title(asc: true)
+            ]
         }
     }
 }
