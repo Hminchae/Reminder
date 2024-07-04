@@ -38,6 +38,7 @@
 		B1CE5FC92C35B07F000F4AA1 /* TagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CE5FC82C35B07F000F4AA1 /* TagViewController.swift */; };
 		B1CE5FCB2C35B08F000F4AA1 /* PriorityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CE5FCA2C35B08F000F4AA1 /* PriorityViewController.swift */; };
 		B1CE5FD52C3688A1000F4AA1 /* FileManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CE5FD42C3688A1000F4AA1 /* FileManager+Extension.swift */; };
+		B1CE5FD72C369395000F4AA1 /* TodoTableRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CE5FD62C369395000F4AA1 /* TodoTableRepository.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +73,7 @@
 		B1CE5FC82C35B07F000F4AA1 /* TagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewController.swift; sourceTree = "<group>"; };
 		B1CE5FCA2C35B08F000F4AA1 /* PriorityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityViewController.swift; sourceTree = "<group>"; };
 		B1CE5FD42C3688A1000F4AA1 /* FileManager+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Extension.swift"; sourceTree = "<group>"; };
+		B1CE5FD62C369395000F4AA1 /* TodoTableRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoTableRepository.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -280,6 +282,7 @@
 		B1CE5FD22C36885F000F4AA1 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				B1CE5FD62C369395000F4AA1 /* TodoTableRepository.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -392,6 +395,7 @@
 				B1CE5FBC2C3559E0000F4AA1 /* Reminder.swift in Sources */,
 				B1CE5F912C344461000F4AA1 /* ListDetailViewController.swift in Sources */,
 				B1CE5F952C3444DE000F4AA1 /* NewReminderViewController.swift in Sources */,
+				B1CE5FD72C369395000F4AA1 /* TodoTableRepository.swift in Sources */,
 				B1CE5F8A2C344359000F4AA1 /* BaseTableViewCell.swift in Sources */,
 				B1CE5F862C34431C000F4AA1 /* BaseView.swift in Sources */,
 				B1CE5FCB2C35B08F000F4AA1 /* PriorityViewController.swift in Sources */,
