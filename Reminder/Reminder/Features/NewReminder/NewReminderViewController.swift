@@ -27,7 +27,7 @@ class NewReminderViewController: BaseViewController {
         
         return tableView
     }()
-
+    
     private let topItemView = UIView()
     
     private lazy var cancelButton = {
@@ -117,7 +117,7 @@ class NewReminderViewController: BaseViewController {
     
     @objc private func addButtonClicked() {
         let realm = try! Realm() // 데이터가 있는 위치를 찾아가는 코드
-
+        
         guard let reminder = tempReminder, !reminder.title.isEmpty else {
             let alert = UIAlertController(title: "제목이 비어 있습니다", message: "제목을 입력해주세요.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "확인", style: .default))
@@ -126,12 +126,12 @@ class NewReminderViewController: BaseViewController {
             return
         }
         
-        let data = TodoTable(momoTitle: reminder.title, 
+        let data = TodoTable(momoTitle: reminder.title,
                              memoContent: reminder.memo,
                              category: "미리 알림",
                              registerDate: Date(),
                              dueDate: Date().addingTimeInterval(10000)) // 임의의 시간
-       
+        
         try! realm.write {
             realm.add(data)
             print("Realm Create Succeed")
@@ -198,9 +198,8 @@ extension NewReminderViewController: UITableViewDelegate, UITableViewDataSource 
             print("ㅜㅜㅜ")
         case 1:
             print("ㅜㅜㅜ")
-            let vc = NewRemindeNewReminderDetailViewControllerrViewController()
-            vc.modalTransitionStyle = .coverVertical
-            present(vc, animated: true)
+            let vc =  NewRemindeNewReminderDetailViewControllerrViewController()
+            navigationController?.pushViewController(vc, animated: true)
         default:
             print("ㅜㅜㅜ")
         }

@@ -129,7 +129,7 @@ final class MainViewController: BaseViewController {
     }
     
     @objc private func newReminderButtonClicked() {
-        let vc = NewReminderViewController()
+        let vc = UINavigationController(rootViewController: NewReminderViewController())
         present(vc, animated: true)
         print("우와")
     }

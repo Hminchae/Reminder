@@ -139,8 +139,7 @@ extension NewRemindeNewReminderDetailViewControllerrViewController: UITableViewD
                     cell.resultLabel.text = formatter.string(from: date)
                 }
             }
-            vc.modalTransitionStyle = .coverVertical
-            present(vc, animated: true)
+            navigationController?.pushViewController(vc, animated: true)
         case 1:
             let vc = TagViewController()
             vc.tagWrited = { [weak self] tag in
@@ -150,8 +149,7 @@ extension NewRemindeNewReminderDetailViewControllerrViewController: UITableViewD
                     cell.resultLabel.text = tag
                 }
             }
-            vc.modalTransitionStyle = .coverVertical
-            present(vc, animated: true)
+            navigationController?.pushViewController(vc, animated: true)
         case 2:
             let vc = PriorityViewController()
             vc.priorityChanged = { priority in
@@ -159,7 +157,7 @@ extension NewRemindeNewReminderDetailViewControllerrViewController: UITableViewD
                     cell.resultLabel.text = priority
                 }
             }
-            present(vc, animated: true)
+            navigationController?.pushViewController(vc, animated: true)
         case 3:
             print("호엥?")
         default:
