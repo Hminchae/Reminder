@@ -175,8 +175,11 @@ extension ReminderViewController: UITableViewDelegate, UITableViewDataSource {
         let delete = UIContextualAction(style: .destructive, title: "삭제") { [weak self] (action, view, completionHandler) in
             
             guard let data = self?.list[indexPath.row] else { return }
-            print(data)
-            //self?.repository.deleteItem(data)
+
+            self?.removeImageFromDocument(filename: "\(data.id)")
+            self?.repository.deleteItem(data)
+            
+            self?.list.remove(at: indexPath.row) // <- 리스트 삭제가 필요함
             
             tableView.reloadData()
             

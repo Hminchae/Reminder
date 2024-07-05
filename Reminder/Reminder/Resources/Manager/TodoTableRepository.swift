@@ -72,7 +72,7 @@ final class TodoTableRepository {
             try realm.write {
                 realm.create(TodoTable.self,
                              value: ["id": data.id,
-                                     "money": 1000000000000000000],
+                                     target: value],
                              update:  .modified)
             }
         } catch {
