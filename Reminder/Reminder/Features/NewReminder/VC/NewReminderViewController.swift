@@ -149,7 +149,7 @@ extension NewReminderViewController: UITableViewDelegate, UITableViewDataSource 
             print("ㅜㅜㅜ")
         case 1:
             print("ㅜㅜㅜ")
-            let vc =  NewRemindeNewReminderDetailViewControllerrViewController()
+            let vc =  NewReminderDetailViewController()
             navigationController?.pushViewController(vc, animated: true)
         default:
             print("ㅜㅜㅜ")

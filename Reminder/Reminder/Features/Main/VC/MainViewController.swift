@@ -186,7 +186,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("bnbbb")
-        let vc = ListDetailViewController()
+        let vc = ReminderViewController()
         
         switch indexPath.row {
         case 0:

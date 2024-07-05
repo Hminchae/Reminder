@@ -7,7 +7,7 @@
 
 import UIKit
 
-// 컴포넌트 셀 : 제목 하나만 있는 셀
+// 컴포넌트 셀 : [ title        result ]
 final class TitleTableViewCell: BaseTableViewCell {
     
     let titleLabel = {

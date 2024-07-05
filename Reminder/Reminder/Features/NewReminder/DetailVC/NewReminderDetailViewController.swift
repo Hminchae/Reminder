@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NewRemindeNewReminderDetailViewControllerrViewController: BaseViewController {
+class NewReminderDetailViewController: BaseViewController {
     
     private var selectedDate = Date()
     private var writedTag = String()
@@ -90,7 +90,7 @@ class NewRemindeNewReminderDetailViewControllerrViewController: BaseViewControll
     }
 }
 
-extension NewRemindeNewReminderDetailViewControllerrViewController: UITableViewDelegate, UITableViewDataSource {
+extension NewReminderDetailViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         4

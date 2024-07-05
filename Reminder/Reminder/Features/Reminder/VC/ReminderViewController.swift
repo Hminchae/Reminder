@@ -8,7 +8,7 @@
 import UIKit
 
 
-final class ListDetailViewController: BaseViewController {
+final class ReminderViewController: BaseViewController {
     
     private var repository = TodoTableRepository()
     
@@ -22,8 +22,8 @@ final class ListDetailViewController: BaseViewController {
         let tableView = UITableView()
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(ListDetailTableViewCell.self,
-                           forCellReuseIdentifier: ListDetailTableViewCell.identifier)
+        tableView.register(ReminderTableViewCell.self,
+                           forCellReuseIdentifier: ReminderTableViewCell.identifier)
         
         return tableView
     }()
@@ -140,14 +140,14 @@ final class ListDetailViewController: BaseViewController {
     }
 }
 
-extension ListDetailViewController: UITableViewDelegate, UITableViewDataSource {
+extension ReminderViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         list.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ListDetailTableViewCell.identifier, for: indexPath)
-        guard let cell = cell as? ListDetailTableViewCell else { return UITableViewCell() }
+        let cell = tableView.dequeueReusableCell(withIdentifier: ReminderTableViewCell.identifier, for: indexPath)
+        guard let cell = cell as? ReminderTableViewCell else { return UITableViewCell() }
         
         let data = list[indexPath.row]
         
@@ -175,8 +175,8 @@ extension ListDetailViewController: UITableViewDelegate, UITableViewDataSource {
         let delete = UIContextualAction(style: .destructive, title: "삭제") { [weak self] (action, view, completionHandler) in
             
             guard let data = self?.list[indexPath.row] else { return }
-            
-            self?.repository.deleteItem(data)
+            print(data)
+            //self?.repository.deleteItem(data)
             
             tableView.reloadData()
             
