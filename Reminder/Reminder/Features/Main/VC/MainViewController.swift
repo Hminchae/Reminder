@@ -142,8 +142,14 @@ final class MainViewController: BaseViewController {
     // MARK: 버튼 액션
     @objc private func calendarButtonClicked() {
         let vc = CalendarViewController()
+        vc.modalPresentationStyle = .pageSheet
+
+        if let presentationController = vc.sheetPresentationController {
+            presentationController.detents = [.medium()]
+            presentationController.prefersGrabberVisible = true
+        }
+
         present(vc, animated: true)
-        print("달력")
     }
     
     @objc private func editButtonClicked() {
@@ -153,7 +159,6 @@ final class MainViewController: BaseViewController {
     @objc private func newReminderButtonClicked() {
         let vc = UINavigationController(rootViewController: NewReminderViewController())
         present(vc, animated: true)
-        print("우와")
     }
     
     @objc private func addListButtonClicked() {
