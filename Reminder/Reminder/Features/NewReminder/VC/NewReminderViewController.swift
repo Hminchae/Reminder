@@ -67,6 +67,7 @@ class NewReminderViewController: BaseViewController {
         navigationItem.title = "새로운 미리 알림"
         navigationItem.leftBarButtonItem = cancel
         navigationItem.rightBarButtonItem = add
+        navigationController?.navigationBar.backgroundColor = .modalBg
     }
     
     @objc private func addButtonClicked() {

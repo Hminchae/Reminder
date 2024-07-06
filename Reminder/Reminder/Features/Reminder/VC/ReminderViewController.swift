@@ -45,12 +45,6 @@ final class ReminderViewController: BaseViewController {
         return button
     }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        configureList()
-    }
-    
     override func configureHierarchy() {
         view.addSubview(tableView)
         view.addSubview(newReminderButton)
@@ -73,6 +67,9 @@ final class ReminderViewController: BaseViewController {
     
     override func configureView() {
         configureNavigationBar()
+        configureList()
+        configureGesture()
+
     }
     
     private func configureNavigationBar() {
@@ -104,6 +101,11 @@ final class ReminderViewController: BaseViewController {
         list = repository.fetchAll(category, sortType: .registerDate(asc: true))
     }
     
+    private func configureGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(newReminderButtonClicked))
+        view.addGestureRecognizer(tapGesture)
+    }
+    
     // 화면에 들어와서 리스트를 업데이트 해줄까..
     private func configureMenu() -> UIMenu {
         guard let category else { return UIMenu() }
@@ -132,11 +134,61 @@ final class ReminderViewController: BaseViewController {
     }
     
     @objc private func newReminderButtonClicked() {
-        print("새로운 미리 알림 기능 구현")
+        // 마지막 TodoTable 확인
+        if let last = list.last {
+            let lastIndexPath = IndexPath(row: list.count - 1, section: 0)
+            if let cell = tableView.cellForRow(at: lastIndexPath) as? ReminderTableViewCell {
+                if let title = cell.titleTextField.text, title.isEmpty {
+                    // 마지막 cell의 텍스트 필드가 비어있으면 삭제
+                    list.removeLast()
+                    tableView.deleteRows(at: [lastIndexPath], with: .automatic)
+                    return
+                }
+            }
+        }
+
+        // 새 TodoTable 추가
+        let data = TodoTable(momoTitle: "",
+                             memoContent: nil,
+                             category: "미리 알림",
+                             registerDate: Date(),
+                             dueDate: Date().addingTimeInterval(10000),
+                             priority: 1)
+        list.append(data)
+        
+        let newIndexPath = IndexPath(row: list.count - 1, section: 0)
+        tableView.insertRows(at: [newIndexPath], with: .automatic)
+        tableView.scrollToRow(at: newIndexPath, at: .bottom, animated: true)
+        
+        // 포커스 설정
+        if let cell = tableView.cellForRow(at: newIndexPath) as? ReminderTableViewCell {
+            cell.titleTextField.becomeFirstResponder()
+        }
     }
+
     
     @objc private func shareButtonClicked() {
         print("공유버튼 기능 구현")
+    }
+}
+
+extension ReminderViewController: UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let cell = textField.superview?.superview as? ReminderTableViewCell,
+              let indexPath = tableView.indexPath(for: cell) else {
+            return
+        }
+
+        let data = list[indexPath.row] // 현재 편집 중인 데이터
+        if let text = textField.text, !text.isEmpty {
+            // 텍스트 필드에 내용이 있는 경우
+            data.momoTitle = text
+            repository.createItem(data)
+        } else {
+            // 텍스트 필드가 비어 있는 경우
+            list.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
     }
 }
 
@@ -152,6 +204,7 @@ extension ReminderViewController: UITableViewDelegate, UITableViewDataSource {
         let data = list[indexPath.row]
         
         cell.radioButton = RadioButton(style: .selected(color: .brown))
+        cell.titleTextField.delegate = self
         cell.titleTextField.text = data.momoTitle
         
         return cell
@@ -163,7 +216,9 @@ extension ReminderViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let detail = UIContextualAction(style: .normal, title: "세부사항") { (action, view, completionHandler) in
-            // TODO: 디테일 vc 구현
+            let vc = UINavigationController(rootViewController:  NewReminderViewController())
+            self.present(vc, animated: true)
+            
             completionHandler(true)
         }
         
@@ -175,7 +230,7 @@ extension ReminderViewController: UITableViewDelegate, UITableViewDataSource {
         let delete = UIContextualAction(style: .destructive, title: "삭제") { [weak self] (action, view, completionHandler) in
             
             guard let data = self?.list[indexPath.row] else { return }
-
+            
             self?.removeImageFromDocument(filename: "\(data.id)")
             self?.repository.deleteItem(data)
             
