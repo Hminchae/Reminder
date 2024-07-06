@@ -92,12 +92,19 @@ final class MainViewController: BaseViewController {
     
     private func configureNavigationItem() {
         // 네비게이션 바 아이템 설정
+        let calendar = UIBarButtonItem(
+            image: UIImage(systemName: "calendar.badge.clock"),
+            style: .plain,
+            target: self,
+            action: #selector(calendarButtonClicked))
+        
         let edit = UIBarButtonItem(
             title: "편집",
             style: .plain,
             target: self,
             action: #selector(editButtonClicked))
         
+        navigationItem.leftBarButtonItem = calendar
         navigationItem.rightBarButtonItem = edit
         navigationItem.backButtonTitle = "목록"
         // 네비게이션 타이틀 설정
@@ -133,6 +140,12 @@ final class MainViewController: BaseViewController {
     }
     
     // MARK: 버튼 액션
+    @objc private func calendarButtonClicked() {
+        let vc = CalendarViewController()
+        present(vc, animated: true)
+        print("달력")
+    }
+    
     @objc private func editButtonClicked() {
         print("편집")
     }
