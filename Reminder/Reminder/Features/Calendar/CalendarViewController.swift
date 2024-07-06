@@ -22,7 +22,7 @@ final class CalendarViewController: BaseViewController {
         calendar.firstWeekday = 1 // 첫열을 일요일로
         calendar.scope = .month
         
-        calendar.scrollEnabled = false
+        calendar.scrollEnabled = true
         calendar.locale = Locale(identifier: "ko_KR")
         
         calendar.placeholderType = .none
@@ -50,31 +50,9 @@ final class CalendarViewController: BaseViewController {
         return calendar
     }()
     
-    // 이전 달로 이동 버튼
-    private lazy var preButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
-        button.tintColor = .label
-        button.addTarget(self, action: #selector(moveMonthButtonClicked), for: .touchUpInside)
-        
-        return button
-    }()
-    
-    // 다음 달로 이동 버튼
-    private lazy var postButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "chevron.right"), for: .normal)
-        button.tintColor = .label
-        button.addTarget(self, action: #selector(moveMonthButtonClicked), for: .touchUpInside)
-        
-        return button
-    }()
-    
     // MARK: override 메서드
     override func configureHierarchy() {
         view.addSubview(calendarView)
-        view.addSubview(preButton)
-        view.addSubview(postButton)
     }
     
     override func configureLayout() {
@@ -83,37 +61,48 @@ final class CalendarViewController: BaseViewController {
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(10)
             make.height.equalTo(300)
         }
-        
-        preButton.snp.makeConstraints { make in
-            make.top.equalTo(calendarView.snp.top).offset(10)
-            make.leading.equalTo(calendarView.snp.leading)
-            make.size.equalTo(30)
-        }
-        
-        postButton.snp.makeConstraints { make in
-            make.top.equalTo(calendarView.snp.top).offset(10)
-            make.trailing.equalTo(calendarView.snp.trailing)
-            make.size.equalTo(30)
-        }
     }
     
     override func configureView() {
         view.backgroundColor = .modalBg
+        configureSwipeGestures()
     }
     
     // MARK: 사용자 정의 메서드
-    @objc private func moveMonthButtonClicked(_ sender: UIButton) {
-        moveMonth(next: sender == postButton)
+    private func configureSwipeGestures() {
+        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
+        swipeUp.direction = .up
+        swipeUp.delegate = self
+        calendarView.addGestureRecognizer(swipeUp)
+        
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
+        swipeDown.direction = .down
+        swipeDown.delegate = self
+        calendarView.addGestureRecognizer(swipeDown)
     }
-    
-    // 달 이동 로직
-    func moveMonth(next: Bool) {
-        var dateComponents = DateComponents()
-        dateComponents.month = next ? 1 : -1
-        
-        self.currentPage = Calendar.current.date(byAdding: dateComponents, to: self.currentPage)!
-        
-        calendarView.setCurrentPage(self.currentPage, animated: true)
+
+    @objc private func handleSwipe(_ gesture: UISwipeGestureRecognizer) {
+        switch gesture.direction {
+        case .up:
+            // 주별 보기로 변경
+            if calendarView.scope != .week {
+                calendarView.setScope(.week, animated: true)
+            }
+        case .down:
+            // 월별 보기로 변경
+            if calendarView.scope != .month {
+                calendarView.setScope(.month, animated: true)
+            }
+        default:
+            break
+        }
+    }
+}
+
+extension CalendarViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        // 모달의 내장 스와이프와 동시에 인식되도록 허용
+        return true
     }
 }
 

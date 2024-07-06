@@ -141,7 +141,7 @@ final class MainViewController: BaseViewController {
     
     // MARK: 버튼 액션
     @objc private func calendarButtonClicked() {
-        let vc = CalendarViewController()
+        let vc = UINavigationController(rootViewController: CalendarViewController())
         vc.modalPresentationStyle = .pageSheet
 
         if let presentationController = vc.sheetPresentationController {
