@@ -148,7 +148,7 @@ final class ReminderViewController: BaseViewController {
         }
 
         // 새 TodoTable 추가
-        let data = TodoTable(momoTitle: "",
+        let data = TodoTable(memoTitle: "",
                              memoContent: nil,
                              category: "미리 알림",
                              registerDate: Date(),
@@ -182,7 +182,7 @@ extension ReminderViewController: UITextFieldDelegate {
         let data = list[indexPath.row] // 현재 편집 중인 데이터
         if let text = textField.text, !text.isEmpty {
             // 텍스트 필드에 내용이 있는 경우
-            data.momoTitle = text
+            data.memoTitle = text
             repository.createItem(data)
         } else {
             // 텍스트 필드가 비어 있는 경우
@@ -205,7 +205,7 @@ extension ReminderViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.radioButton = RadioButton(style: .selected(color: .brown))
         cell.titleTextField.delegate = self
-        cell.titleTextField.text = data.momoTitle
+        cell.titleTextField.text = data.memoTitle
         
         return cell
     }

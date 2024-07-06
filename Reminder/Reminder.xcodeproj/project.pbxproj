@@ -201,7 +201,6 @@
 			isa = PBXGroup;
 			children = (
 				B1CE5FDC2C378F61000F4AA1 /* VC */,
-				B1CE5FC22C358D75000F4AA1 /* Cell */,
 			);
 			path = Reminder;
 			sourceTree = "<group>";
@@ -244,6 +243,7 @@
 		B1CE5FAC2C34BCE7000F4AA1 /* ReUseCell */ = {
 			isa = PBXGroup;
 			children = (
+				B1CE5FB62C34CBB4000F4AA1 /* ReminderTableViewCell.swift */,
 				B1CE5FAF2C34BF50000F4AA1 /* TitleTableViewCell.swift */,
 			);
 			path = ReUseCell;
@@ -265,14 +265,6 @@
 				B1CE5FBE2C35721E000F4AA1 /* RadioButton.swift */,
 			);
 			path = CustomView;
-			sourceTree = "<group>";
-		};
-		B1CE5FC22C358D75000F4AA1 /* Cell */ = {
-			isa = PBXGroup;
-			children = (
-				B1CE5FB62C34CBB4000F4AA1 /* ReminderTableViewCell.swift */,
-			);
-			path = Cell;
 			sourceTree = "<group>";
 		};
 		B1CE5FC52C35B03E000F4AA1 /* DetailVC */ = {

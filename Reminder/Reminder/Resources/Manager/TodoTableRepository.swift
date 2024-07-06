@@ -63,6 +63,16 @@ final class TodoTableRepository {
         return String(results)
     }
     
+    // 특정 날짜까지의 할 일 가져오기
+    func fetchTodosDueBy(date: Date) -> [TodoTable] {
+        let startDay = Calendar.current.startOfDay(for: date)
+        let endDay = Calendar.current.date(byAdding: .day, value: 1, to: startDay)!
+
+        let results = realm.objects(TodoTable.self).filter("dueDate >= %@ AND dueDate < %@", startDay, endDay)
+       print(results)
+        return Array(results)
+    }
+    
     // 데이터 생성
     func createItem(_ data: TodoTable) {
         do {

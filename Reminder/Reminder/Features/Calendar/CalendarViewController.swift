@@ -14,6 +14,9 @@ final class CalendarViewController: BaseViewController {
     // 현재 캘린더가 보여주고 있는 Page 트래킹
     lazy var currentPage = calendarView.currentPage
     
+    private var repository = TodoTableRepository()
+    lazy var list: [TodoTable] = []
+
     private lazy var calendarView = {
         let calendar = FSCalendar()
         calendar.dataSource = self
@@ -50,9 +53,20 @@ final class CalendarViewController: BaseViewController {
         return calendar
     }()
     
+    lazy private var tableView = {
+        let tableView = UITableView()
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(ReminderTableViewCell.self,
+                           forCellReuseIdentifier: ReminderTableViewCell.identifier)
+        
+        return tableView
+    }()
+    
     // MARK: override 메서드
     override func configureHierarchy() {
         view.addSubview(calendarView)
+        view.addSubview(tableView)
     }
     
     override func configureLayout() {
@@ -61,11 +75,20 @@ final class CalendarViewController: BaseViewController {
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(10)
             make.height.equalTo(300)
         }
+        
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(calendarView.snp.bottom).offset(10)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(10)
+            make.height.equalTo(200)
+        }
     }
     
     override func configureView() {
         view.backgroundColor = .modalBg
+        
         configureSwipeGestures()
+        
+        list = repository.fetchTodosDueBy(date: Date())
     }
     
     // MARK: 사용자 정의 메서드
@@ -131,6 +154,11 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource {
             return nil
         }
     }
+    
+    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        list = repository.fetchTodosDueBy(date: date)
+        tableView.reloadData()
+    }
 }
 
 extension CalendarViewController: FSCalendarDelegateAppearance {
@@ -148,5 +176,83 @@ extension CalendarViewController: FSCalendarDelegateAppearance {
         default:
             return .label
         }
+    }
+}
+
+extension CalendarViewController: UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let cell = textField.superview?.superview as? ReminderTableViewCell,
+              let indexPath = tableView.indexPath(for: cell) else {
+            return
+        }
+
+        let data = list[indexPath.row] // 현재 편집 중인 데이터
+        if let text = textField.text, !text.isEmpty {
+            // 텍스트 필드에 내용이 있는 경우
+            data.memoTitle = text
+            repository.createItem(data)
+        } else {
+            // 텍스트 필드가 비어 있는 경우
+            list.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
+}
+
+extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        list.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: ReminderTableViewCell.identifier, for: indexPath)
+        guard let cell = cell as? ReminderTableViewCell else { return UITableViewCell() }
+        
+        let data = list[indexPath.row]
+        
+        cell.radioButton = RadioButton(style: .selected(color: .brown))
+        cell.titleTextField.delegate = self
+        cell.titleTextField.text = data.memoTitle
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let detail = UIContextualAction(style: .normal, title: "세부사항") { (action, view, completionHandler) in
+            let vc = UINavigationController(rootViewController:  NewReminderViewController())
+            self.present(vc, animated: true)
+            
+            completionHandler(true)
+        }
+        
+        let flag = UIContextualAction(style: .normal, title: "깃발") { (action, view, completionHandler) in
+            // TODO: 깃발 기능 구현
+            completionHandler(true)
+        }
+        
+        let delete = UIContextualAction(style: .destructive, title: "삭제") { [weak self] (action, view, completionHandler) in
+            
+            guard let data = self?.list[indexPath.row] else { return }
+            
+            self?.removeImageFromDocument(filename: "\(data.id)")
+            self?.repository.deleteItem(data)
+            
+            self?.list.remove(at: indexPath.row) // <- 리스트 삭제가 필요함
+            
+            tableView.reloadData()
+            
+            completionHandler(true)
+        }
+        
+        detail.backgroundColor = .systemGray
+        flag.backgroundColor = .systemOrange
+        
+        let config = UISwipeActionsConfiguration(actions: [delete, flag, detail])
+        
+        return config
     }
 }

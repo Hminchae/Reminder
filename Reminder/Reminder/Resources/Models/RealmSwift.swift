@@ -11,8 +11,8 @@ import RealmSwift
 
 class TodoTable: Object {
     @Persisted(primaryKey: true) var id: ObjectId
-    @Persisted(indexed: true) var momoTitle: String
-    @Persisted var momoContent: String?
+    @Persisted(indexed: true) var memoTitle: String
+    @Persisted var memoContent: String?
     @Persisted var category: String
     @Persisted var registerDate: Date
     @Persisted var dueDate: Date
@@ -20,7 +20,7 @@ class TodoTable: Object {
     @Persisted var isCompleted: Bool
     @Persisted var priority: Int // 상: 3, 중: 2, 하: 1
     
-    convenience init(momoTitle: String,
+    convenience init(memoTitle: String,
                      memoContent: String?,
                      category: String,
                      registerDate: Date,
@@ -28,8 +28,8 @@ class TodoTable: Object {
                      priority: Int
     ) {
         self.init()
-        self.momoTitle = momoTitle
-        self.momoContent = momoContent
+        self.memoTitle = memoTitle
+        self.memoContent = memoContent
         self.category = category
         self.registerDate = registerDate
         self.dueDate = dueDate

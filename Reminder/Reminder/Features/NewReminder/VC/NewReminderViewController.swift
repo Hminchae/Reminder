@@ -79,7 +79,7 @@ class NewReminderViewController: BaseViewController {
             return
         }
         
-        let data = TodoTable(momoTitle: reminder.title,
+        let data = TodoTable(memoTitle: reminder.title,
                              memoContent: reminder.memo,
                              category: "미리 알림",
                              registerDate: Date(),
