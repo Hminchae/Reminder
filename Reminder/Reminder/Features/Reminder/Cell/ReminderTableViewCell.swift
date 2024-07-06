@@ -7,7 +7,7 @@
 
 import UIKit
 
-// 컴포너트 셀 : 라디오버튼과 타이틀 있는 셀, 나중엔 날짜 추가까지 해야됨 ㅠㅜㅠ
+// 컴포너트 셀 : 라디오버튼과 타이틀 있는 셀
 final class ReminderTableViewCell: BaseTableViewCell {
     
     var radioButton = RadioButton(style: .unselected)

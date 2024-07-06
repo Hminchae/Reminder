@@ -7,11 +7,9 @@
 
 import UIKit
 
-import RealmSwift
-
 final class MainViewController: BaseViewController {
     
-    private let realm = try! Realm()
+    private let repository = TodoTableRepository()
     // MARK: 뷰
     private lazy var tableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
@@ -53,6 +51,11 @@ final class MainViewController: BaseViewController {
     }()
     
     // MARK: override 메서드
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateCollectionView()
+    }
+    
     override func configureHierarchy() {
         view.addSubview(tableView)
         view.addSubview(bottomItemView)
@@ -77,10 +80,16 @@ final class MainViewController: BaseViewController {
         setupBottomItemView()
         configureNavigationItem()
         
-        print(realm.configuration.fileURL)
+        repository.priteFileLocation()
     }
     
     // MARK: 일반 메서드
+    private func updateCollectionView() {
+        if let headerView = tableView.tableHeaderView as? MainHeaderView {
+            headerView.collectionView.reloadData()
+        }
+    }
+    
     private func configureNavigationItem() {
         // 네비게이션 바 아이템 설정
         let edit = UIBarButtonItem(
@@ -179,7 +188,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
         cell.categoryTitleLable.text = data.rawValue
         
-        cell.categoryTotalToDoLabel.text = "0"
+        cell.categoryTotalToDoLabel.text = repository.fetchAllCount(data)
         
         return cell
     }

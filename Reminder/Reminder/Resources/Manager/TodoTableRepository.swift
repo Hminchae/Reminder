@@ -14,7 +14,7 @@ final class TodoTableRepository {
     private let realm = try! Realm()
     
     // 데이터 패치 - 카테고리 지정 값 없으면 전체
-    func fetchAll(_ category: View.MainCategory, 
+    func fetchAll(_ category: View.MainCategory,
                   sortType: Sort.TypeOf
     ) -> [TodoTable] {
         let now = Date()
@@ -38,6 +38,29 @@ final class TodoTableRepository {
         let sortedResults = results.sorted(byKeyPath: sortType.dbName,
                                            ascending: sortType.isAsc)
         return Array(sortedResults)
+    }
+    
+    // 데이터 패치 - 카테고리 지정 값 없으면 전체
+    func fetchAllCount(_ category: View.MainCategory) -> String {
+        let now = Date()
+        let twentyFourHoursLater = Calendar.current.date(byAdding: .hour, value: 24, to: now)!
+        
+        let results: Int
+        
+        switch category {
+        case .today:
+            results = realm.objects(TodoTable.self).filter("dueDate >= %@ AND dueDate <= %@", now, twentyFourHoursLater).count
+        case .expacted:
+            results = realm.objects(TodoTable.self).filter("dueDate > %@", now).count
+        case .all:
+            results = realm.objects(TodoTable.self).count
+        case .flag:
+            results = realm.objects(TodoTable.self).filter("isflag == true").count
+        case .completed:
+            results = realm.objects(TodoTable.self).filter("isCompleted == true").count
+        }
+
+        return String(results)
     }
     
     // 데이터 생성
@@ -78,5 +101,10 @@ final class TodoTableRepository {
         } catch {
             print("Realm Error")
         }
+    }
+    
+    // 데이터 위치 출력
+    func priteFileLocation() {
+        print(realm.configuration.fileURL ?? "파일 위치를 찾을 수 없음")
     }
 }
