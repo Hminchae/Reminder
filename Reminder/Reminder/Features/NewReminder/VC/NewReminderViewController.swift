@@ -14,6 +14,9 @@ protocol NewReminderContentsDelegate {
 
 class NewReminderViewController: BaseViewController {
     
+    private var selectedDate = Date()
+    private var writedTag = String()
+    private let topItemView = UIView()
     private let repository = TodoTableRepository()
     
     private lazy var tableView = {
@@ -106,7 +109,7 @@ extension NewReminderViewController: UITableViewDelegate, UITableViewDataSource 
         case 0:
             return 1
         case 1:
-            return 1
+            return 4
         default:
             return 0
         }
@@ -124,7 +127,8 @@ extension NewReminderViewController: UITableViewDelegate, UITableViewDataSource 
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: TitleTableViewCell.identifier, for: indexPath)
             guard let cell = cell as? TitleTableViewCell else { return UITableViewCell() }
-            cell.titleLabel.text = "세부사항"
+            
+            cell.titleLabel.text = View.NewREList.allCases[indexPath.row].rawValue
             cell.accessoryType = .disclosureIndicator
             
             return cell
@@ -145,13 +149,40 @@ extension NewReminderViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch indexPath.section {
+        switch indexPath.row {
+        case 0:
+            let vc = DueDateViewController()
+            vc.dateSelected = { [weak self] date in
+                self?.selectedDate = date
+                
+                let formatter = DateFormatter()
+                formatter.dateFormat = "yyyy.MM.dd"
+                
+                if let cell = tableView.cellForRow(at: indexPath) as? TitleTableViewCell {
+                    cell.resultLabel.text = formatter.string(from: date)
+                }
+            }
+            navigationController?.pushViewController(vc, animated: true)
+        case 1:
+            let vc = TagViewController()
+            vc.tagWrited = { [weak self] tag in
+                self?.writedTag = tag
+                
+                if let cell = tableView.cellForRow(at: indexPath) as? TitleTableViewCell {
+                    cell.resultLabel.text = tag
+                }
+            }
+            navigationController?.pushViewController(vc, animated: true)
+        case 2:
+            let vc = PriorityViewController()
+            vc.priorityChanged = { priority in
+                if let cell = tableView.cellForRow(at: indexPath) as? TitleTableViewCell {
+                    cell.resultLabel.text = priority
+                }
+            }
+            navigationController?.pushViewController(vc, animated: true)
         case 0:
             print("ㅜㅜㅜ")
-        case 1:
-            print("ㅜㅜㅜ")
-            let vc =  NewReminderDetailViewController()
-            navigationController?.pushViewController(vc, animated: true)
         default:
             print("ㅜㅜㅜ")
         }

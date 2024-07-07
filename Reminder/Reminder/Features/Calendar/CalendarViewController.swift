@@ -54,7 +54,7 @@ final class CalendarViewController: BaseViewController {
     }()
     
     lazy private var tableView = {
-        let tableView = UITableView()
+        let tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(ReminderTableViewCell.self,
@@ -78,8 +78,8 @@ final class CalendarViewController: BaseViewController {
         
         tableView.snp.makeConstraints { make in
             make.top.equalTo(calendarView.snp.bottom).offset(10)
-            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(10)
-            make.height.equalTo(200)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalTo(view.snp.bottom)
         }
     }
     
