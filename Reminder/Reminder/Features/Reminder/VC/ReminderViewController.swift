@@ -253,7 +253,7 @@ extension ReminderViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let detail = UIContextualAction(style: .normal, title: "세부사항") { (action, view, completionHandler) in
-            let vc = UINavigationController(rootViewController:  NewReminderViewController())
+            let vc = ReminderDetailViewController()
             self.present(vc, animated: true)
             
             completionHandler(true)
