@@ -33,7 +33,7 @@
 		B1CE5FB72C34CBB4000F4AA1 /* ReminderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CE5FB62C34CBB4000F4AA1 /* ReminderTableViewCell.swift */; };
 		B1CE5FBC2C3559E0000F4AA1 /* Reminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CE5FBB2C3559E0000F4AA1 /* Reminder.swift */; };
 		B1CE5FBF2C35721E000F4AA1 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CE5FBE2C35721E000F4AA1 /* RadioButton.swift */; };
-		B1CE5FC42C35AC5E000F4AA1 /* NewReminderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CE5FC32C35AC5E000F4AA1 /* NewReminderDetailViewController.swift */; };
+		B1CE5FC42C35AC5E000F4AA1 /* (Legacy)NewReminderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CE5FC32C35AC5E000F4AA1 /* (Legacy)NewReminderDetailViewController.swift */; };
 		B1CE5FC72C35B05E000F4AA1 /* DueDateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CE5FC62C35B05E000F4AA1 /* DueDateViewController.swift */; };
 		B1CE5FC92C35B07F000F4AA1 /* TagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CE5FC82C35B07F000F4AA1 /* TagViewController.swift */; };
 		B1CE5FCB2C35B08F000F4AA1 /* PriorityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CE5FCA2C35B08F000F4AA1 /* PriorityViewController.swift */; };
@@ -71,7 +71,7 @@
 		B1CE5FB62C34CBB4000F4AA1 /* ReminderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderTableViewCell.swift; sourceTree = "<group>"; };
 		B1CE5FBB2C3559E0000F4AA1 /* Reminder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reminder.swift; sourceTree = "<group>"; };
 		B1CE5FBE2C35721E000F4AA1 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
-		B1CE5FC32C35AC5E000F4AA1 /* NewReminderDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewReminderDetailViewController.swift; sourceTree = "<group>"; };
+		B1CE5FC32C35AC5E000F4AA1 /* (Legacy)NewReminderDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "(Legacy)NewReminderDetailViewController.swift"; sourceTree = "<group>"; };
 		B1CE5FC62C35B05E000F4AA1 /* DueDateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DueDateViewController.swift; sourceTree = "<group>"; };
 		B1CE5FC82C35B07F000F4AA1 /* TagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewController.swift; sourceTree = "<group>"; };
 		B1CE5FCA2C35B08F000F4AA1 /* PriorityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityViewController.swift; sourceTree = "<group>"; };
@@ -270,7 +270,7 @@
 		B1CE5FC52C35B03E000F4AA1 /* DetailVC */ = {
 			isa = PBXGroup;
 			children = (
-				B1CE5FC32C35AC5E000F4AA1 /* NewReminderDetailViewController.swift */,
+				B1CE5FC32C35AC5E000F4AA1 /* (Legacy)NewReminderDetailViewController.swift */,
 				B1CE5FC62C35B05E000F4AA1 /* DueDateViewController.swift */,
 				B1CE5FC82C35B07F000F4AA1 /* TagViewController.swift */,
 				B1CE5FCA2C35B08F000F4AA1 /* PriorityViewController.swift */,
@@ -442,7 +442,7 @@
 				B1CE5FB02C34BF50000F4AA1 /* TitleTableViewCell.swift in Sources */,
 				B1CE5F9F2C345118000F4AA1 /* MainHeaderCollectionViewCell.swift in Sources */,
 				B1CE5FA42C3457FC000F4AA1 /* MainViewController.swift in Sources */,
-				B1CE5FC42C35AC5E000F4AA1 /* NewReminderDetailViewController.swift in Sources */,
+				B1CE5FC42C35AC5E000F4AA1 /* (Legacy)NewReminderDetailViewController.swift in Sources */,
 				B1CE5FC72C35B05E000F4AA1 /* DueDateViewController.swift in Sources */,
 				B1CE5FBC2C3559E0000F4AA1 /* Reminder.swift in Sources */,
 				B1CE5F912C344461000F4AA1 /* ReminderViewController.swift in Sources */,

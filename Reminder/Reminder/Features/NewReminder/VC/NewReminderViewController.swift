@@ -7,6 +7,8 @@
 
 import UIKit
 
+import PhotosUI
+
 protocol NewReminderContentsDelegate {
     func passTitle(_ text: String)
     func passMemo(_ text: String)
@@ -18,6 +20,7 @@ class NewReminderViewController: BaseViewController {
     private var writedTag = String()
     private let topItemView = UIView()
     private let repository = TodoTableRepository()
+    private var tempPhotoImage: UIImage?
     
     private lazy var tableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
@@ -91,6 +94,11 @@ class NewReminderViewController: BaseViewController {
         
         repository.createItem(data)
         
+        // 이미지 저장
+        if let image = tempPhotoImage {
+            saveImageToDocument(image: image, filename: "\(data.id)")
+        }
+        
         dismiss(animated: true)
     }
     
@@ -142,7 +150,7 @@ extension NewReminderViewController: UITableViewDelegate, UITableViewDataSource 
         case 0:
             return 200
         case 1:
-            return 50
+            return UITableView.automaticDimension
         default:
             return 0
         }
@@ -181,11 +189,22 @@ extension NewReminderViewController: UITableViewDelegate, UITableViewDataSource 
                 }
             }
             navigationController?.pushViewController(vc, animated: true)
-        case 0:
-            print("ㅜㅜㅜ")
+        case 3:
+            addImageButtonClicked()
         default:
             print("ㅜㅜㅜ")
         }
+    }
+    
+    private func addImageButtonClicked() {
+        var configuration = PHPickerConfiguration()
+        configuration.selectionLimit = 1
+        configuration.filter = .any(of: [.images, .depthEffectPhotos])
+        
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        
+        present(picker, animated: true)
     }
 }
 
@@ -198,4 +217,29 @@ extension NewReminderViewController: NewReminderContentsDelegate {
     func passMemo(_ text: String) {
         tempReminder?.memo = text
     }
+}
+
+extension NewReminderViewController: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+            dismiss(animated: true)
+            guard let itemProvider = results.first?.itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) else { return }
+
+            itemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, error in
+                guard let self = self, let image = image as? UIImage else { return }
+
+                DispatchQueue.main.async {
+                    let indexPath = IndexPath(row: 3, section: 1)
+                    if let cell = self.tableView.cellForRow(at: indexPath) as? TitleTableViewCell {
+                        cell.isContainImage = true
+                        
+                        cell.photoImageView.image = image
+                        cell.photoImageView.isHidden = false
+                        
+                        self.tempPhotoImage = image
+                        self.tableView.reloadRows(at: [indexPath], with: .none)
+                    }
+                }
+
+            }
+        }
 }
