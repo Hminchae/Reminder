@@ -106,7 +106,6 @@ final class ReminderViewController: BaseViewController {
         view.addGestureRecognizer(tapGesture)
     }
     
-    // 화면에 들어와서 리스트를 업데이트 해줄까..
     private func configureMenu() -> UIMenu {
         guard let category else { return UIMenu() }
         
@@ -152,8 +151,9 @@ final class ReminderViewController: BaseViewController {
                              memoContent: nil,
                              category: "미리 알림",
                              registerDate: Date(),
-                             dueDate: Date().addingTimeInterval(10000),
-                             priority: 1)
+                             dueDate: nil, 
+                             tag: nil,
+                             priority: nil)
         list.append(data)
         
         let newIndexPath = IndexPath(row: list.count - 1, section: 0)
@@ -205,6 +205,43 @@ extension ReminderViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.radioButton = RadioButton(style: .selected(color: .brown))
         cell.titleTextField.delegate = self
+        
+        var tempPriority = ""
+        
+        if let priority = data.priority {
+            cell.priorityLabel.isHidden = false
+            switch priority {
+            case "낮음":
+                tempPriority = "!"
+            case "보통":
+                tempPriority = "!!"
+            case "높음":
+                tempPriority = "!!!"
+            default:
+                tempPriority = ""
+            }
+        }
+        
+        cell.priorityLabel.text = tempPriority
+        
+        if let tag = data.tag {
+            cell.tagLabel.isHidden = false
+            cell.tagLabel.text = "#\(tag)"
+        }
+        
+        if let dueDate = data.dueDate {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy.MM.dd"
+            
+            cell.dueDateLabel.isHidden = false
+            cell.dueDateLabel.text = formatter.string(from: dueDate)
+        }
+        
+        if let content = data.memoContent {
+            cell.contentTextField.isHidden = false
+            cell.contentTextField.text = content
+        }
+        
         cell.titleTextField.text = data.memoTitle
         
         return cell

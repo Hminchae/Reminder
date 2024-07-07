@@ -16,11 +16,12 @@ protocol NewReminderContentsDelegate {
 
 class NewReminderViewController: BaseViewController {
     
-    private var selectedDate = Date()
-    private var writedTag = String()
-    private let topItemView = UIView()
-    private let repository = TodoTableRepository()
+    private var selectedDate: Date?
+    private var writedTag: String?
+    private var writedPriority: String?
     private var tempPhotoImage: UIImage?
+    
+    private let repository = TodoTableRepository()
     
     private lazy var tableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
@@ -89,9 +90,22 @@ class NewReminderViewController: BaseViewController {
                              memoContent: reminder.memo,
                              category: "미리 알림",
                              registerDate: Date(),
-                             dueDate: Date().addingTimeInterval(10000),
-                             priority: 1)
+                             dueDate: nil,
+                             tag: nil,
+                             priority: nil)
         
+        if let date = selectedDate {
+            data.dueDate = date
+        }
+        
+        if let tag = writedTag {
+            data.tag = tag
+        }
+        
+        if let priority = writedPriority {
+            data.priority = priority
+        }
+           
         repository.createItem(data)
         
         // 이미지 저장
@@ -183,7 +197,9 @@ extension NewReminderViewController: UITableViewDelegate, UITableViewDataSource 
             navigationController?.pushViewController(vc, animated: true)
         case 2:
             let vc = PriorityViewController()
-            vc.priorityChanged = { priority in
+            vc.priorityChanged = { [weak self] priority in
+                self?.writedPriority = priority
+                
                 if let cell = tableView.cellForRow(at: indexPath) as? TitleTableViewCell {
                     cell.resultLabel.text = priority
                 }

@@ -15,17 +15,19 @@ class TodoTable: Object {
     @Persisted var memoContent: String?
     @Persisted var category: String
     @Persisted var registerDate: Date
-    @Persisted var dueDate: Date
+    @Persisted var dueDate: Date?
     @Persisted var isflag: Bool
     @Persisted var isCompleted: Bool
-    @Persisted var priority: Int // 상: 3, 중: 2, 하: 1
+    @Persisted var tag: String?
+    @Persisted var priority: String? // 상: 3, 중: 2, 하: 1
     
     convenience init(memoTitle: String,
                      memoContent: String?,
                      category: String,
                      registerDate: Date,
-                     dueDate: Date,
-                     priority: Int
+                     dueDate: Date?,
+                     tag: String?,
+                     priority: String?
     ) {
         self.init()
         self.memoTitle = memoTitle
@@ -35,6 +37,7 @@ class TodoTable: Object {
         self.dueDate = dueDate
         self.isflag = false
         self.isCompleted = false
+        self.tag = tag
         self.priority = priority
     }
 }
